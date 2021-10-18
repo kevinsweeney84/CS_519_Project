@@ -54,11 +54,6 @@ class ControlWidget(Qt.QWidget):
 
         ''' Select Data to work with '''
         mainLayout = self.createLayoutLoad(mainLayout)
-        # mainLayout.addWidget(QHLine(sunken=False))
-
-        ''' Project Data '''
-        mainLayout = self.createLayoutProject(mainLayout)
-        mainLayout.addWidget(QHLine(sunken=False))
 
         ''' Manipulate Plot '''
         mainLayout = self.createLayoutManipulatePlot(mainLayout)
@@ -99,29 +94,6 @@ class ControlWidget(Qt.QWidget):
 
         dataLayout.addWidget(dataFile)
         dataLayout.addWidget(self.dataLbl)
-
-        return mainLayout
-
-    def createLayoutProject(self, mainLayout):
-        """
-        Layout which sets up projection button
-
-        :param mainLayout:
-        :return:
-        """
-
-        # Create layouts
-        # -------------- Line --------------
-        mainLayout.addWidget(QHLine())
-        # ----------------------------------
-
-        projectionBtnsLayout = Qt.QHBoxLayout()  # Vertical layout to hold all fields
-        mainLayout.addLayout(projectionBtnsLayout)
-
-        self.reproj = Qt.QPushButton("Project Data")
-        self.reproj.setEnabled(False)
-        self.reproj.clicked.connect(self.project)
-        projectionBtnsLayout.addWidget(self.reproj)
 
         return mainLayout
 
@@ -191,9 +163,6 @@ class ControlWidget(Qt.QWidget):
         self.dataLoaded = True
 
         self.setDataFileLbl(fname[0])
-        self.initializeProjectButtons()
-
-    def project(self):
 
         self.projectRequested.emit()
 
@@ -213,11 +182,3 @@ class ControlWidget(Qt.QWidget):
     def setDataFileLbl(self, fname):
         name = fname.split('/')
         self.dataLbl.setText(name[len(name) - 1])
-
-    ''' Support funcs '''
-
-    def initializeProjectButtons(self):
-        if self.dataLoaded:
-            self.reproj.setEnabled(True)
-        else:
-            self.reproj.setEnabled(False)
