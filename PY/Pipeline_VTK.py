@@ -15,11 +15,6 @@ class VTKPipeline:
         self.renderer = None
         self.interactor = None
         self.vtkData = None
-        self.highlightedPoint = -1
-
-    def setHighlightedPoint(self, ptId):
-        self.highlightedPoint = ptId
-        self.interactor.Render()
 
     def setVTKData(self, data):
         self.vtkData = data
@@ -45,9 +40,6 @@ class VTKPipeline:
         pass
 
     def setupPipeline(self, data):
-        pass
-
-    def setHighlightIDs(self, ptIdList):
         pass
 
     def updateLegend(self, legendType):
