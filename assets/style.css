@@ -1,0 +1,23 @@
+/* Used for vertical lines */
+.column_left {
+  border-right: 1px solid #bfbfbf;
+}
+
+/* Thicker Horizontal lines */
+.thick_horizontal  {
+    border: none;
+    height: 3px;
+    color: #bfbfbf; /* old IE */
+    background-color: #bfbfbf; /* Modern Browsers */
+}
+
+.dropdown_btn {
+    text-align: left;
+    font-weight: bold;
+}
+
+.header {
+    font-weight: bold;
+    text-decoration: underline;
+    font-size: 20px;
+}
