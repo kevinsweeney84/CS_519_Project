@@ -14,6 +14,11 @@ class VTKTriangulatorPipeline(VTKPipeline):
     def updateProperty(self, key, value):
         if key == 'alpha':
             self.triangulator.SetAlpha(value)
+        
+        if key == 'opacityValue':
+            sProp = vtk.vtkProperty()
+            sProp.SetOpacity(value)
+            self.actor.SetProperty(sProp)
 
     def setupPipeline(self, data, alphaValue):
         self.vtkData = data
@@ -27,11 +32,11 @@ class VTKTriangulatorPipeline(VTKPipeline):
 
         sProp = vtk.vtkProperty()
         sProp.SetOpacity(1.0)
-        actor = vtk.vtkActor()
-        actor.SetProperty(sProp)
-        actor.SetMapper(mapper)
+        self.actor = vtk.vtkActor()
+        self.actor.SetProperty(sProp)
+        self.actor.SetMapper(mapper)
         
-        self.actors.append(actor)
+        self.actors.append(self.actor)
 
 
 '''
@@ -48,7 +53,11 @@ class VTKTetrahedralizerPipeline(VTKPipeline):
     def updateProperty(self, key, value):
         if key == 'alpha':
             self.triangulator.SetAlpha(value)
-            print("Alpha Value: " + str(value))
+        
+        if key == 'opacityValue':
+            sProp = vtk.vtkProperty()
+            sProp.SetOpacity(value)
+            self.actor.SetProperty(sProp)
 
     def setupPipeline(self, data, alphaValue):
         self.vtkData = data
@@ -64,8 +73,8 @@ class VTKTetrahedralizerPipeline(VTKPipeline):
 
         sProp = vtk.vtkProperty()
         sProp.SetOpacity(1.0)
-        actor = vtk.vtkActor()
-        actor.SetProperty(sProp)
-        actor.SetMapper(mapper)
+        self.actor = vtk.vtkActor()
+        self.actor.SetProperty(sProp)
+        self.actor.SetMapper(mapper)
         
-        self.actors.append(actor)
+        self.actors.append(self.actor)

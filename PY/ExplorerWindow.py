@@ -65,6 +65,7 @@ class ExplorerWindow(QMainWindow):
         self.controls.changeAlpha.connect(self.updateAlpha)
         self.controls.changeAlphaCheckbox.connect(self.updateAlphaCheckbox)
         self.controls.changeSphereSize.connect(self.updateSphereSize)
+        self.controls.changeOpacityValue.connect(self.updateOpacityValue)
         self.controls.dataChanged.connect(self.updateData)
         self.controls.dataFileReadRequested.connect(self.readDataFile)
         self.controls.render.connect(self.updateRender)
@@ -85,6 +86,10 @@ class ExplorerWindow(QMainWindow):
 
     def updateSphereSize(self, val, updateRender=True):
         self.vtkWidget.updateProperty('sphereSize', val, updateRender)
+
+
+    def updateOpacityValue(self, val, updateRender=True):
+        self.vtkWidget.updateProperty('opacityValue', val, updateRender)
 
     def updateAlpha(self, val, updateRender=True):
         self.currentAlpha = val

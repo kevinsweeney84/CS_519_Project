@@ -29,6 +29,7 @@ class ControlWidget(Qt.QWidget):
     changeAlpha = QtCore.pyqtSignal(float)
     changeAlphaCheckbox = QtCore.pyqtSignal(bool)
     changeSphereSize = QtCore.pyqtSignal(float)
+    changeOpacityValue = QtCore.pyqtSignal(float)
     dataChanged = QtCore.pyqtSignal()
     dataFileReadRequested = QtCore.pyqtSignal(str)
     projectRequested = QtCore.pyqtSignal()
@@ -113,23 +114,14 @@ class ControlWidget(Qt.QWidget):
 
         manipulatePlotLayout = Qt.QVBoxLayout()
 
-        # Create layouts
+        # Create Sphere Layout
         sphereLayout = Qt.QVBoxLayout()       # Vertical Layout to hold all Sphere controls
         sphereLayout.setAlignment(Qt.Qt.AlignTop)
         sphereTextLayout = Qt.QHBoxLayout() # Horizontal layout to hold text "Sphere Size" and text-value
-
-        alphaLayout = Qt.QVBoxLayout()       # Vertical Layout to hold all Aplha controls
-        alphaLayout.setAlignment(Qt.Qt.AlignTop)
-        alphaTextLayout = Qt.QHBoxLayout()  # Horizontal layout to hold text "Alpha Value" and text-value
-
-        manipulatePlotLayout.addLayout(sphereLayout)
-        manipulatePlotLayout.addLayout(alphaLayout)
-
         sphereLayout.addLayout(sphereTextLayout)
-        alphaLayout.addLayout(alphaTextLayout)
-
+        
         sphereTextLayout.addWidget(Qt.QLabel("Sphere Size"))
-        self.sphereLabel = Qt.QLabel('0', self)
+        self.sphereLabel = Qt.QLabel('0.05', self)
         sphereTextLayout.addWidget(self.sphereLabel)
 
         self.sphereSlider = Qt.QSlider()
@@ -141,9 +133,14 @@ class ControlWidget(Qt.QWidget):
         self.sphereSlider.setEnabled(False)
         sphereLayout.addWidget(self.sphereSlider)
 
+        # Create Alpha Layout       
+        alphaLayout = Qt.QVBoxLayout()       # Vertical Layout to hold all Aplha controls
+        alphaLayout.setAlignment(Qt.Qt.AlignTop)
+        alphaTextLayout = Qt.QHBoxLayout()  # Horizontal layout to hold text "Alpha Value" and text-value
+        alphaLayout.addLayout(alphaTextLayout)
 
         alphaTextLayout.addWidget(Qt.QLabel("Alpha Value"))
-        self.alphaLabel = Qt.QLabel('0', self)
+        self.alphaLabel = Qt.QLabel('0.15', self)
         alphaTextLayout.addWidget(self.alphaLabel)
 
         self.alphaSlider = Qt.QSlider()
@@ -158,8 +155,30 @@ class ControlWidget(Qt.QWidget):
         self.alphaCheckbox = Qt.QCheckBox("Turn Off Alpha", self)
         self.alphaCheckbox.stateChanged.connect(self.alphaCheckboxChanged)
         self.alphaCheckbox.setEnabled(False)
-
         alphaLayout.addWidget(self.alphaCheckbox)
+
+        # Create Opacity Layout
+        opacityLayout = Qt.QVBoxLayout()       # Vertical Layout to hold all Opacity controls
+        opacityLayout.setAlignment(Qt.Qt.AlignTop)
+        opacityTextLayout = Qt.QHBoxLayout()   # Horizontal layout to hold text "Opacity Value" and text-value
+        opacityLayout.addLayout(opacityTextLayout)
+        
+        opacityTextLayout.addWidget(Qt.QLabel("Opacity Value"))
+        self.opacityLabel = Qt.QLabel('1', self)
+        opacityTextLayout.addWidget(self.opacityLabel)
+
+        self.opacitySlider = Qt.QSlider()
+        self.opacitySlider.setOrientation(QtCore.Qt.Horizontal)
+        self.opacitySlider.setMinimum(0)
+        self.opacitySlider.setMaximum(100)
+        self.opacitySlider.setValue(100)
+        self.opacitySlider.valueChanged.connect(self.opacityValueChanged)
+        self.opacitySlider.setEnabled(False)
+        opacityLayout.addWidget(self.opacitySlider)
+
+        manipulatePlotLayout.addLayout(sphereLayout)
+        manipulatePlotLayout.addLayout(alphaLayout)
+        manipulatePlotLayout.addLayout(opacityLayout)
 
         mainLayout.addWidget(manipulatePlotText)
         mainLayout.addLayout(manipulatePlotLayout)
@@ -186,6 +205,7 @@ class ControlWidget(Qt.QWidget):
         self.sphereSlider.setEnabled(True)
         self.alphaSlider.setEnabled(True)
         self.alphaCheckbox.setEnabled(True)
+        self.opacitySlider.setEnabled(True)
 
     def alphaChanged(self, val):
         self.changeAlpha.emit(float(val) / 100.)
@@ -199,6 +219,12 @@ class ControlWidget(Qt.QWidget):
         val = float(val) / 100.0
         self.changeSphereSize.emit(val)
         self.sphereLabel.setText(str(val))
+
+
+    def opacityValueChanged(self, val):
+        val = float(val) / 100.0
+        self.changeOpacityValue.emit(val)
+        self.opacityLabel.setText(str(val))
 
     ''' SETTERS '''
 
