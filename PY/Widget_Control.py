@@ -1,5 +1,7 @@
 from PyQt5 import QtCore, QtGui, Qt 
 
+from PY.Box_Collapsible import CollapsibleBox
+
 '''
 NOTE:  Due to the self reference in the lambda function in addScalar, this class is NOT garbage collected
 '''
@@ -57,6 +59,9 @@ class ControlWidget(Qt.QWidget):
 
         ''' Manipulate Plot '''
         mainLayout = self.createLayoutManipulatePlot(mainLayout)
+        mainLayout = self.createLayoutSphere(mainLayout)
+        mainLayout = self.createLayoutAlpha(mainLayout)
+        mainLayout = self.createLayoutOpacity(mainLayout)
         mainLayout.addWidget(QHLine(sunken=False))
 
         mainLayout.addStretch()
@@ -110,18 +115,27 @@ class ControlWidget(Qt.QWidget):
         manipulatePlotText.setAlignment(Qt.Qt.AlignCenter)
         manipulatePlotText.setStyleSheet(self.headingTextStyle)
 
-        manipulatePlotLayout = Qt.QVBoxLayout()
+        mainLayout.addWidget(manipulatePlotText)
+
+        return mainLayout
+
+    def createLayoutSphere(self, mainLayout):
 
         # Create Sphere Layout
+        self.sphereInfoBox = CollapsibleBox("Sphere: Info")
+        mainLayout.addWidget(self.sphereInfoBox)
+        self.sphereInfoLayout = Qt.QVBoxLayout()
+
+        infoSphere = Qt.QLabel("""The Slider allows the user to amend the size of the spheres representing the data points to allow for ease of viewing""")
+        # infoSphere.setStyleSheet("background-color: white; border: 1px solid lightgrey; color:black")
+        infoSphere.setWordWrap(True)
+
+        self.sphereInfoLayout.addWidget(infoSphere)
+        self.sphereInfoBox.setContentLayout(self.sphereInfoLayout)
+
         sphereLayout = Qt.QVBoxLayout()       # Vertical Layout to hold all Sphere controls
         sphereLayout.setAlignment(Qt.Qt.AlignTop)
         
-        infoSphere = Qt.QLabel("""The Slider allows the user to amend the size of the spheres representing the data points to allow for ease of viewing""")
-        infoSphere.setStyleSheet("background-color: white; border: 1px solid lightgrey; color:black")
-        infoSphere.setWordWrap(True)
-
-        sphereLayout.addWidget(infoSphere)
-
         sphereTextLayout = Qt.QHBoxLayout() # Horizontal layout to hold text "Sphere Size" and text-value
         sphereLayout.addLayout(sphereTextLayout)
         
@@ -138,15 +152,25 @@ class ControlWidget(Qt.QWidget):
         self.sphereSlider.setEnabled(False)
         sphereLayout.addWidget(self.sphereSlider)
 
-        # Create Alpha Layout       
-        alphaLayout = Qt.QVBoxLayout()       # Vertical Layout to hold all Aplha controls
-        alphaLayout.setAlignment(Qt.Qt.AlignTop)
+        mainLayout.addLayout(sphereLayout)
+
+        return mainLayout
+
+    def createLayoutAlpha(self, mainLayout):
+
+        # Create Alpha Layout 
+        self.alphaInfoBox = CollapsibleBox("Alpha: Info")
+        mainLayout.addWidget(self.alphaInfoBox)
+        self.alphaInfoLayout = Qt.QVBoxLayout()
         
         infoAlpha = Qt.QLabel("""If a non-zero alpha distance value is specified (called the "alpha" value), then only tetrahedra, triangles, edges, and vertices laying within the alpha radius are output. In other words, non-zero alpha values may result in arbitrary combinations of tetrahedra, triangles, lines, and vertices""")
-        infoAlpha.setStyleSheet("background-color: white; border: 1px solid lightgrey; color:black")
+        # infoAlpha.setStyleSheet("background-color: white; border: 1px solid lightgrey; color:black")
         infoAlpha.setWordWrap(True)
+        self.alphaInfoLayout.addWidget(infoAlpha)
+        self.alphaInfoBox.setContentLayout(self.alphaInfoLayout)
 
-        alphaLayout.addWidget(infoAlpha)
+        alphaLayout = Qt.QVBoxLayout()       # Vertical Layout to hold all Aplha controls
+        alphaLayout.setAlignment(Qt.Qt.AlignTop)
         
         alphaTextLayout = Qt.QHBoxLayout()  # Horizontal layout to hold text "Alpha Value" and text-value
         alphaLayout.addLayout(alphaTextLayout)
@@ -169,15 +193,26 @@ class ControlWidget(Qt.QWidget):
         self.alphaCheckbox.setEnabled(False)
         alphaLayout.addWidget(self.alphaCheckbox)
 
+        mainLayout.addLayout(alphaLayout)
+
+        return mainLayout
+
+    def createLayoutOpacity(self, mainLayout):
+
         # Create Opacity Layout
-        opacityLayout = Qt.QVBoxLayout()       # Vertical Layout to hold all Opacity controls
-        opacityLayout.setAlignment(Qt.Qt.AlignTop)
+        self.opacityInfoBox = CollapsibleBox("Opacity: Info")
+        mainLayout.addWidget(self.opacityInfoBox)
+        self.opacityInfoLayout = Qt.QVBoxLayout()
         
         infoOpacity = Qt.QLabel("""The Slider allows the user to amend the opacity of the spheres / Delaunay mesh to be able to view structures within the mesh""")
-        infoOpacity.setStyleSheet("background-color: white; border: 1px solid lightgrey; color:black")
+        # infoOpacity.setStyleSheet("background-color: white; border: 1px solid lightgrey; color:black")
         infoOpacity.setWordWrap(True)
 
-        opacityLayout.addWidget(infoOpacity)
+        self.opacityInfoLayout.addWidget(infoOpacity)
+        self.opacityInfoBox.setContentLayout(self.opacityInfoLayout)
+
+        opacityLayout = Qt.QVBoxLayout()       # Vertical Layout to hold all Opacity controls
+        opacityLayout.setAlignment(Qt.Qt.AlignTop)
 
         opacityTextLayout = Qt.QHBoxLayout()   # Horizontal layout to hold text "Opacity Value" and text-value
         opacityLayout.addLayout(opacityTextLayout)
@@ -195,14 +230,9 @@ class ControlWidget(Qt.QWidget):
         self.opacitySlider.setEnabled(False)
         opacityLayout.addWidget(self.opacitySlider)
 
-        manipulatePlotLayout.addLayout(sphereLayout)
-        manipulatePlotLayout.addLayout(alphaLayout)
-        manipulatePlotLayout.addLayout(opacityLayout)
+        mainLayout.addLayout(opacityLayout)
 
-        mainLayout.addWidget(manipulatePlotText)
-        mainLayout.addLayout(manipulatePlotLayout)
-
-        mainLayout.setSpacing(30)
+        # mainLayout.setSpacing(30)
 
         return mainLayout
 
