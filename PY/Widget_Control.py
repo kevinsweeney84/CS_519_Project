@@ -106,27 +106,32 @@ class ControlWidget(Qt.QWidget):
         :return:
         """
 
+        # Manipulate Plot Title 
         manipulatePlotText = Qt.QLabel('Manipulate Plot')
         manipulatePlotText.setAlignment(Qt.Qt.AlignCenter)
         manipulatePlotText.setStyleSheet(self.headingTextStyle)
-        mainLayout.addWidget(manipulatePlotText)
 
-        self.manipulatePlotLayout = Qt.QVBoxLayout()
-
-        manipulateSlidersLayout = Qt.QHBoxLayout()  # Vertical layout to hold all fields
-        self.manipulatePlotLayout.addLayout(manipulateSlidersLayout)
+        manipulatePlotLayout = Qt.QVBoxLayout()
 
         # Create layouts
-        sphereSizeLayout = Qt.QVBoxLayout()  # Horizontal layout to hold latent space info
-        sphereSizeLayout.setAlignment(Qt.Qt.AlignTop)
-        alphaValueLayout = Qt.QVBoxLayout()  # Horizontal layout to hold Scalar info
-        alphaValueLayout.setAlignment(Qt.Qt.AlignTop)
+        sphereLayout = Qt.QVBoxLayout()       # Vertical Layout to hold all Sphere controls
+        sphereLayout.setAlignment(Qt.Qt.AlignTop)
+        sphereTextLayout = Qt.QHBoxLayout() # Horizontal layout to hold text "Sphere Size" and text-value
 
-        manipulateSlidersLayout.addLayout(sphereSizeLayout)
-        manipulateSlidersLayout.addWidget(QVLine())
-        manipulateSlidersLayout.addLayout(alphaValueLayout)
+        alphaLayout = Qt.QVBoxLayout()       # Vertical Layout to hold all Aplha controls
+        alphaLayout.setAlignment(Qt.Qt.AlignTop)
+        alphaTextLayout = Qt.QHBoxLayout()  # Horizontal layout to hold text "Alpha Value" and text-value
 
-        sphereSizeLayout.addWidget(Qt.QLabel("Sphere Size"))
+        manipulatePlotLayout.addLayout(sphereLayout)
+        manipulatePlotLayout.addLayout(alphaLayout)
+
+        sphereLayout.addLayout(sphereTextLayout)
+        alphaLayout.addLayout(alphaTextLayout)
+
+        sphereTextLayout.addWidget(Qt.QLabel("Sphere Size"))
+        self.sphereLabel = Qt.QLabel('0', self)
+        sphereTextLayout.addWidget(self.sphereLabel)
+
         self.sphereSlider = Qt.QSlider()
         self.sphereSlider.setOrientation(QtCore.Qt.Horizontal)
         self.sphereSlider.setMinimum(1)
@@ -134,9 +139,13 @@ class ControlWidget(Qt.QWidget):
         self.sphereSlider.setValue(5)
         self.sphereSlider.valueChanged.connect(self.sphereSizeChanged)
         self.sphereSlider.setEnabled(False)
-        sphereSizeLayout.addWidget(self.sphereSlider)
+        sphereLayout.addWidget(self.sphereSlider)
 
-        alphaValueLayout.addWidget(Qt.QLabel("Alpha Value"))
+
+        alphaTextLayout.addWidget(Qt.QLabel("Alpha Value"))
+        self.alphaLabel = Qt.QLabel('0', self)
+        alphaTextLayout.addWidget(self.alphaLabel)
+
         self.alphaSlider = Qt.QSlider()
         self.alphaSlider.setOrientation(QtCore.Qt.Horizontal)
         self.alphaSlider.setMinimum(1)
@@ -144,17 +153,18 @@ class ControlWidget(Qt.QWidget):
         self.alphaSlider.setValue(15)
         self.alphaSlider.valueChanged.connect(self.alphaChanged)
         self.alphaSlider.setEnabled(False)
-        alphaValueLayout.addWidget(self.alphaSlider)
+        alphaLayout.addWidget(self.alphaSlider)
 
         self.alphaCheckbox = Qt.QCheckBox("Turn Off Alpha", self)
         self.alphaCheckbox.stateChanged.connect(self.alphaCheckboxChanged)
         self.alphaCheckbox.setEnabled(False)
-        alphaValueLayout.addWidget(self.alphaCheckbox)
 
-        mainLayout.addLayout(self.manipulatePlotLayout)
+        alphaLayout.addWidget(self.alphaCheckbox)
+
+        mainLayout.addWidget(manipulatePlotText)
+        mainLayout.addLayout(manipulatePlotLayout)
 
         return mainLayout
-
 
     ''' SLOTS '''
 
@@ -179,6 +189,7 @@ class ControlWidget(Qt.QWidget):
 
     def alphaChanged(self, val):
         self.changeAlpha.emit(float(val) / 100.)
+        self.alphaLabel.setText(str(val))
 
     def alphaCheckboxChanged(self, val):
         self.changeAlphaCheckbox.emit(val)
@@ -187,6 +198,7 @@ class ControlWidget(Qt.QWidget):
     def sphereSizeChanged(self, val):
         val = float(val) / 100.0
         self.changeSphereSize.emit(val)
+        self.sphereLabel.setText(str(val))
 
     ''' SETTERS '''
 
