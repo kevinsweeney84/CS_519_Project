@@ -27,6 +27,7 @@ class QVLine(Qt.QFrame):
 class ControlWidget(Qt.QWidget):
     ''' SIGNALS '''
     changeAlpha = QtCore.pyqtSignal(float)
+    changeAlphaCheckbox = QtCore.pyqtSignal(bool)
     changeSphereSize = QtCore.pyqtSignal(float)
     dataChanged = QtCore.pyqtSignal()
     dataFileReadRequested = QtCore.pyqtSignal(str)
@@ -145,6 +146,11 @@ class ControlWidget(Qt.QWidget):
         self.alphaSlider.setEnabled(False)
         alphaValueLayout.addWidget(self.alphaSlider)
 
+        self.alphaCheckbox = Qt.QCheckBox("Turn Off Alpha", self)
+        self.alphaCheckbox.stateChanged.connect(self.alphaCheckboxChanged)
+        self.alphaCheckbox.setEnabled(False)
+        alphaValueLayout.addWidget(self.alphaCheckbox)
+
         mainLayout.addLayout(self.manipulatePlotLayout)
 
         return mainLayout
@@ -169,9 +175,14 @@ class ControlWidget(Qt.QWidget):
         # Enable the "Manipulate Plot" Widgets
         self.sphereSlider.setEnabled(True)
         self.alphaSlider.setEnabled(True)
+        self.alphaCheckbox.setEnabled(True)
 
     def alphaChanged(self, val):
         self.changeAlpha.emit(float(val) / 100.)
+
+    def alphaCheckboxChanged(self, val):
+        self.changeAlphaCheckbox.emit(val)
+
 
     def sphereSizeChanged(self, val):
         val = float(val) / 100.0

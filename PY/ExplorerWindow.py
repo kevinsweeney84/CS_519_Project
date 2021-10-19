@@ -23,6 +23,7 @@ class ExplorerWindow(QMainWindow):
 
         self.polydata = None
         self.spheres = None
+        self.currentAlpha = 0.15
 
         self.locations = []
         self.connectControls()
@@ -62,6 +63,7 @@ class ExplorerWindow(QMainWindow):
         :return:
         """
         self.controls.changeAlpha.connect(self.updateAlpha)
+        self.controls.changeAlphaCheckbox.connect(self.updateAlphaCheckbox)
         self.controls.changeSphereSize.connect(self.updateSphereSize)
         self.controls.dataChanged.connect(self.updateData)
         self.controls.dataFileReadRequested.connect(self.readDataFile)
@@ -85,7 +87,16 @@ class ExplorerWindow(QMainWindow):
         self.vtkWidget.updateProperty('sphereSize', val, updateRender)
 
     def updateAlpha(self, val, updateRender=True):
+        self.currentAlpha = val
         self.vtkWidget.updateProperty('alpha', val, updateRender)
+
+    def updateAlphaCheckbox(self, val, updateRender=True):
+        print(val)
+        if (val == True):
+            self.vtkWidget.updateProperty('alpha', 0, updateRender)
+        else:
+            self.vtkWidget.updateProperty('alpha', self.currentAlpha, updateRender)
+
 
     def updateData(self, val):
         self.vtkWidget.updateProperty('vtkPoints', val)
