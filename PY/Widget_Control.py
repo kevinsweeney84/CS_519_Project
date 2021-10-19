@@ -51,11 +51,9 @@ class ControlWidget(Qt.QWidget):
         self.headingTextStyle = "font: 16pt; font-weight: bold; padding-top: 8px"
         self.fileTextStyle = "color: DodgerBlue; text-align: center;"
 
-        # Line
-        mainLayout.addWidget(QHLine(sunken=False))
-
         ''' Select Data to work with '''
         mainLayout = self.createLayoutLoad(mainLayout)
+        mainLayout.addWidget(QHLine(sunken=False))
 
         ''' Manipulate Plot '''
         mainLayout = self.createLayoutManipulatePlot(mainLayout)
@@ -117,6 +115,13 @@ class ControlWidget(Qt.QWidget):
         # Create Sphere Layout
         sphereLayout = Qt.QVBoxLayout()       # Vertical Layout to hold all Sphere controls
         sphereLayout.setAlignment(Qt.Qt.AlignTop)
+        
+        infoSphere = Qt.QLabel("""The Slider allows the user to amend the size of the spheres representing the data points to allow for ease of viewing""")
+        infoSphere.setStyleSheet("background-color: white; border: 1px solid lightgrey; color:black")
+        infoSphere.setWordWrap(True)
+
+        sphereLayout.addWidget(infoSphere)
+
         sphereTextLayout = Qt.QHBoxLayout() # Horizontal layout to hold text "Sphere Size" and text-value
         sphereLayout.addLayout(sphereTextLayout)
         
@@ -136,6 +141,13 @@ class ControlWidget(Qt.QWidget):
         # Create Alpha Layout       
         alphaLayout = Qt.QVBoxLayout()       # Vertical Layout to hold all Aplha controls
         alphaLayout.setAlignment(Qt.Qt.AlignTop)
+        
+        infoAlpha = Qt.QLabel("""If a non-zero alpha distance value is specified (called the "alpha" value), then only tetrahedra, triangles, edges, and vertices laying within the alpha radius are output. In other words, non-zero alpha values may result in arbitrary combinations of tetrahedra, triangles, lines, and vertices""")
+        infoAlpha.setStyleSheet("background-color: white; border: 1px solid lightgrey; color:black")
+        infoAlpha.setWordWrap(True)
+
+        alphaLayout.addWidget(infoAlpha)
+        
         alphaTextLayout = Qt.QHBoxLayout()  # Horizontal layout to hold text "Alpha Value" and text-value
         alphaLayout.addLayout(alphaTextLayout)
 
@@ -160,6 +172,13 @@ class ControlWidget(Qt.QWidget):
         # Create Opacity Layout
         opacityLayout = Qt.QVBoxLayout()       # Vertical Layout to hold all Opacity controls
         opacityLayout.setAlignment(Qt.Qt.AlignTop)
+        
+        infoOpacity = Qt.QLabel("""The Slider allows the user to amend the opacity of the spheres / Delaunay mesh to be able to view structures within the mesh""")
+        infoOpacity.setStyleSheet("background-color: white; border: 1px solid lightgrey; color:black")
+        infoOpacity.setWordWrap(True)
+
+        opacityLayout.addWidget(infoOpacity)
+
         opacityTextLayout = Qt.QHBoxLayout()   # Horizontal layout to hold text "Opacity Value" and text-value
         opacityLayout.addLayout(opacityTextLayout)
         
@@ -182,6 +201,8 @@ class ControlWidget(Qt.QWidget):
 
         mainLayout.addWidget(manipulatePlotText)
         mainLayout.addLayout(manipulatePlotLayout)
+
+        mainLayout.setSpacing(30)
 
         return mainLayout
 
