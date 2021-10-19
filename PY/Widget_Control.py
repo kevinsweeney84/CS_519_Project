@@ -193,3 +193,12 @@ class ControlWidget(Qt.QWidget):
     def setDataFileLbl(self, fname):
         name = fname.split('/')
         self.dataLbl.setText(name[len(name) - 1])
+
+    def setMaxSliders(self, val):
+
+        print("max val: " + str(val))
+        self.sphereSlider.setMaximum(val)
+        self.alphaSlider.setMaximum(val*10)
+
+        self.sphereSlider.setValue(int(val/2))
+        self.alphaSlider.setValue(int(val/2))

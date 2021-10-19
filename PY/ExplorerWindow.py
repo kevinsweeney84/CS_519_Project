@@ -108,6 +108,13 @@ class ExplorerWindow(QMainWindow):
         data = np.load(filename)
         self.locations = data
 
+        max_ranges = int(np.max(np.max(data,0) - np.min(data,0)))
+
+        if (max_ranges <= 2):
+            max_ranges = 3
+
+        self.controls.setMaxSliders(max_ranges)
+
         return 
 
     ''' Other '''
