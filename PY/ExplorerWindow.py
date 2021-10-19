@@ -17,6 +17,8 @@ class ExplorerWindow(QMainWindow):
 
         self.setWindowTitle("Delaunay Triangulation")
 
+        self.setMinimumSize(1200, 800)
+
         self.buildInterior()
 
         self.polydata = None
