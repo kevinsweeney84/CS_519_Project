@@ -34,6 +34,8 @@ qt_manager = Manager()
 
 app = dash.Dash()
 
+server = app.server
+
 app.layout = html.Div(
     children=[
         html.H1(children="Hello Dash"),
@@ -47,6 +49,7 @@ app.layout = html.Div(
     Output(component_id="result", component_property="children"),
     [Input(component_id="startQT_btn", component_property="n_clicks")],
 )
+
 def popUp(n_clicks):
     if not n_clicks:
         raise dash.exceptions.PreventUpdate
