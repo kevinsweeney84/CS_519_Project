@@ -56,6 +56,8 @@ def popUp(n_clicks):
 
     loop = QtCore.QEventLoop()
 
+    print("Just a test")
+
     # Connecting the ExplorerWindow closure to quiting the loop
     qt_manager.view.closed.connect(loop.quit)
     
