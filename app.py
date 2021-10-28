@@ -89,7 +89,7 @@ def main():
     return qt_app.exec_()
 
 
-if __name__ == "__main__":
+if __name__ == "app":
     main()
 
 # import threading
