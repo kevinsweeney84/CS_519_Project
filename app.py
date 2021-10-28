@@ -40,6 +40,9 @@ qt_manager = Manager()
 app = dash.Dash()
 server = app.server
 
+print("__name__")
+print(__name__)
+
 app.layout = html.Div(
     children=[
         html.H1(children="Hello Dash"),
@@ -86,7 +89,8 @@ def main():
     return qt_app.exec_()
 
 
-main()
+if __name__ == "__main__":
+    main()
 
 # import threading
 
