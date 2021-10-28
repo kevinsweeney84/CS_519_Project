@@ -58,6 +58,12 @@ def popUp(n_clicks):
         raise dash.exceptions.PreventUpdate
 
     loop = QtCore.QEventLoop()
+
+    print("qt_manager")
+    print(qt_manager)
+    print("qt_manager.view")
+    print(qt_manager.view)
+
     qt_manager.view.closed.connect(loop.quit)
     QtCore.QMetaObject.invokeMethod(
         qt_manager, "show_popup", QtCore.Qt.QueuedConnection
