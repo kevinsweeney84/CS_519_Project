@@ -18,7 +18,7 @@ class Manager(QtCore.QObject):
         return self._view
 
     def init_gui(self):
-        self._view = ExplorerWindow()
+        self._view = 'This is available' #ExplorerWindow()
 
     @QtCore.pyqtSlot()
     def show_popup(self):
