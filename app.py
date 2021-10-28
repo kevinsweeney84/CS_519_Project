@@ -60,6 +60,7 @@ def popUp(n_clicks):
     if not n_clicks:
         raise dash.exceptions.PreventUpdate
 
+    main()
     loop = QtCore.QEventLoop()
 
     print("qt_manager")
@@ -89,7 +90,7 @@ def main():
     return qt_app.exec_()
 
 
-if __name__ == "app":
+if __name__ == "__main__":
     main()
 
 # import threading
