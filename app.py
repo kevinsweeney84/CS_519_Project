@@ -57,7 +57,13 @@ def popUp(n_clicks):
     loop = QtCore.QEventLoop()
 
     print("Inside popUp")
+    print("qt_manager")
+    print(qt_manager)
+    print("qt_manager.view")
+    print(qt_manager.view)
+    print("loop")
     print(loop)
+
     # Connecting the ExplorerWindow closure to quiting the loop
     qt_manager.view.closed.connect(loop.quit)
     
@@ -83,9 +89,6 @@ def main():
     # Do not want to quit the app when the window is closed
     qt_app.setQuitOnLastWindowClosed(False)
     qt_manager.init_gui()
-
-    print(qt_manager)
-    print(qt_manager.view)
 
     threading.Thread(
         target=app.run_server, 
