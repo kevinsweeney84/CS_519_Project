@@ -32,8 +32,7 @@ class Manager(QtCore.QObject):
 
 qt_manager = Manager()
 
-app = dash.Dash()
-
+app = dash.Dash(__name__)
 server = app.server
 
 app.layout = html.Div(
