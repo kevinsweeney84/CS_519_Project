@@ -96,7 +96,6 @@ class ExplorerWindow(QMainWindow):
         self.vtkWidget.updateProperty('alpha', val, updateRender)
 
     def updateAlphaCheckbox(self, val, updateRender=True):
-        print(val)
         if (val == True):
             self.vtkWidget.updateProperty('alpha', 0, updateRender)
         else:

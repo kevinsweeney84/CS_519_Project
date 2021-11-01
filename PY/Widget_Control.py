@@ -285,7 +285,6 @@ class ControlWidget(Qt.QWidget):
 
     def setMaxSliders(self, val):
 
-        print("max val: " + str(val))
         self.sphereSlider.setMaximum(val)
         self.alphaSlider.setMaximum(val*10)
 

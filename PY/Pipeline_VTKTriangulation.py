@@ -14,6 +14,15 @@ class VTKTriangulatorPipeline(VTKPipeline):
     def updateProperty(self, key, value):
         if key == 'alpha':
             self.triangulator.SetAlpha(value)
+
+            cellData = vtk.vtkUnsignedCharArray()
+            cellData.SetName("colors")
+            cellData.SetNumberOfComponents(3)
+            
+            for i in range(self.triangulator.GetOutput().GetNumberOfCells()):                
+                cellData.InsertNextTypedTuple((255,0,0))
+
+            self.triangulator.GetOutput().GetCellData().SetScalars(cellData)
         
         if key == 'opacityValue':
             sProp = vtk.vtkProperty()
@@ -25,16 +34,28 @@ class VTKTriangulatorPipeline(VTKPipeline):
 
         self.triangulator = vtk.vtkDelaunay2D()
         self.triangulator.SetAlpha(alphaValue)
+
         self.triangulator.SetInputDataObject(self.vtkData)
+
+        cellData = vtk.vtkUnsignedCharArray()
+        cellData.SetName("colors")
+        cellData.SetNumberOfComponents(3)
+
+        for i in range(self.triangulator.GetOutput().GetNumberOfCells()):                
+            cellData.InsertNextTypedTuple((255,0,0))
+
+        self.triangulator.GetOutput().GetCellData().SetScalars(cellData)
 
         mapper = vtk.vtkPolyDataMapper()
         mapper.SetInputConnection(self.triangulator.GetOutputPort())
+        mapper.SetScalarModeToUseCellData()
 
         sProp = vtk.vtkProperty()
         sProp.SetOpacity(1.0)
         self.actor = vtk.vtkActor()
         self.actor.SetProperty(sProp)
         self.actor.SetMapper(mapper)
+        self.actor.GetProperty().SetInterpolationToFlat()
         
         self.actors.append(self.actor)
 
@@ -64,17 +85,27 @@ class VTKTetrahedralizerPipeline(VTKPipeline):
 
         self.triangulator = vtk.vtkDelaunay3D()
         self.triangulator.SetAlpha(alphaValue)
-        print("Alpha Value: " + str(alphaValue))
+        
         self.triangulator.SetInputData(self.vtkData)
 
+        cellData = vtk.vtkUnsignedCharArray()
+        cellData.SetName("colors")
+        cellData.SetNumberOfComponents(3)
+
+        for i in range(self.triangulator.GetOutput().GetNumberOfCells()):                
+            cellData.InsertNextTypedTuple((255,0,0))
+
+        self.triangulator.GetOutput().GetCellData().SetScalars(cellData)
+
         mapper = vtk.vtkDataSetMapper()
-        
         mapper.SetInputConnection(self.triangulator.GetOutputPort())
+        mapper.SetScalarModeToUseCellData()
 
         sProp = vtk.vtkProperty()
         sProp.SetOpacity(1.0)
         self.actor = vtk.vtkActor()
         self.actor.SetProperty(sProp)
         self.actor.SetMapper(mapper)
+        self.actor.GetProperty().SetInterpolationToFlat()
         
         self.actors.append(self.actor)
