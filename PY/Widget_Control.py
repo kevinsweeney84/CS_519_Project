@@ -258,6 +258,8 @@ class ControlWidget(Qt.QWidget):
         self.alphaCheckbox.setEnabled(True)
         self.opacitySlider.setEnabled(True)
 
+        self.opacitySlider.setValue(100)
+
     def alphaChanged(self, val):
         self.changeAlpha.emit(float(val) / 100.)
         self.alphaLabel.setText(str(val))
@@ -285,7 +287,6 @@ class ControlWidget(Qt.QWidget):
 
     def setMaxSliders(self, val):
 
-        print("max val: " + str(val))
         self.sphereSlider.setMaximum(val)
         self.alphaSlider.setMaximum(val*10)
 
