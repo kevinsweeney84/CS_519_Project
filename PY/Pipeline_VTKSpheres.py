@@ -13,11 +13,6 @@ class VTKSpherePipeline(VTKPipeline):
             self.sphereSrc.SetRadius(value)
             self.selectRadius = value * 2.0
 
-        if key == 'opacityValue':
-            sProp = vtk.vtkProperty()
-            sProp.SetOpacity(value)
-            self.actor.SetProperty(sProp)
-
     def update(self):
         self.interactor.Render()
 
