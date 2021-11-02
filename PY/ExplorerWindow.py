@@ -16,6 +16,7 @@ class ExplorerWindow(QMainWindow):
         super(ExplorerWindow, self).__init__(*args, **kwargs)
 
         self.setWindowTitle("Delaunay Triangulation")
+        self.setWindowFlags(self.windowFlags() | QtCore.Qt.WindowStaysOnTopHint)
 
         self.setMinimumSize(1200, 800)
 
@@ -71,7 +72,6 @@ class ExplorerWindow(QMainWindow):
         self.controls.render.connect(self.updateRender)
         self.controls.projectRequested.connect(self.projectData)
 
-        
     def projectData(self):
 
         self.polydata = self.convertToPolydata()
