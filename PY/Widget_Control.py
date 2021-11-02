@@ -258,6 +258,8 @@ class ControlWidget(Qt.QWidget):
         self.alphaCheckbox.setEnabled(True)
         self.opacitySlider.setEnabled(True)
 
+        self.opacitySlider.setValue(100)
+
     def alphaChanged(self, val):
         self.changeAlpha.emit(float(val) / 100.)
         self.alphaLabel.setText(str(val))

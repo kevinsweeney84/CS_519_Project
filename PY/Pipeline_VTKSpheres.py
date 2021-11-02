@@ -40,6 +40,8 @@ class VTKSpherePipeline(VTKPipeline):
         sProp.SetOpacity(1.0)
         self.actor = vtk.vtkActor()
         self.actor.SetProperty(sProp)
+
+        self.actor.GetProperty().SetColor((0, 138, 255))
         self.actor.SetMapper(mapper)
 
         self.actors.append(self.actor)
