@@ -37,11 +37,15 @@ app = dash.Dash(external_stylesheets=[dbc.themes.MATERIA])
 
 project_description_card = dbc.Card(
     [
-        dbc.CardHeader("Project Description"),
+        dbc.CardHeader("Project Description", style={'fontWeight': 'bold'}),
         dbc.CardBody(
             [
                 html.P(
-                    "Provide a brief description of the project",
+                    '''Creation and visualisation of a Delaunay triangulation mesh on inputted 2D / 3D data using the VTK toolkit.''',
+                    className="card-text",
+                ),
+                html.P(
+                    '''Visualisation is housed within a QT application which is placed inside a Python dash app, allowing for external access.''',
                     className="card-text",
                 )
             ]
@@ -49,42 +53,84 @@ project_description_card = dbc.Card(
     ]
 )
 contact_us_card = dbc.Card([
-    dbc.CardHeader("Contact Us"),
+    dbc.CardHeader("Contact Us", style={'fontWeight': 'bold'}),
     dbc.CardBody(
         [
-            html.H6("Kevin Sweeney", className="card-subtitle"),
-            html.P(
-                "kts4/kts4@illinois.edu",
-                className="card-text",
-            ),
-            html.H6("Saurabh Sharma", className="card-subtitle"),
-            html.P(
-                "saurabh6/saurabh6@illinois.edu",
-                className="card-text",
-            ),
+            html.Div([
+                dbc.Row([
+                    dbc.Col([
+                        html.H6("Kevin Sweeney", className="card-subtitle"),
+                        html.P(
+                            "kts4 / kts4@illinois.edu",
+                            className="card-text",
+                        ),
+                    ], width=6),
+
+                    dbc.Col([
+                        html.H6("Saurabh Sharma", className="card-subtitle"),
+                        html.P(
+                            "saurabh6 / saurabh6@illinois.edu",
+                            className="card-text",
+                        ),
+                    ]),
+                ], className="mb-2", ),
+            ])
         ]
     ),
 ])
 guide_card = dbc.Card([
-    dbc.CardHeader("Guide/Instructions"),
+    dbc.CardHeader("Guide/Instructions", style={'fontWeight': 'bold'}),
     dbc.CardBody(
         [
             html.Ul([
-                html.Li("Click on 'LAUNCH APP' button"),
-                html.Li("Click on 'Select Data File (.npy) button on top right hand side of the app"),
-                html.Li("Select a .npy file. There are some sample files provided in ../Data folder"),
-                html.Li("Adjust Alpha and Sphere values using the slider to see triangulation at work"),
+                html.Li("Click on 'LAUNCH APP' button below"),
+                html.Ul([
+                    html.Li("NOTE: The QT application will launch in a new window."),
+                ]),
+                html.Li("Click on the 'Select Data File (.npy)' button on top right hand side of the app"),
+                html.Li("Select a .npy file from the available list of examples. "),
+                html.Ul([
+                    html.Li("There are some sample files provided in ../Data folder"),
+                ]),
+                html.Li("The chosen data will be shown in the left window of the QT application."),
+                html.Ul([
+                    html.Li("Data points are shown with the colour cyan"),
+                    html.Li("Connections between data points are shown with a white line"),
+                    html.Li("Connections between data points which create a triangle are shown by yellow lines"),
+                    html.Li("Triangles are shown using the colour white"),
+                ]),
+                html.Li("The application allows the user to manipulate a number of parameters:"),
+                html.Ul([
+                    html.Li("Sphere: "),
+                        html.Ul([
+                            html.Li("Change the size of the data points"),
+                        ]),
+                    html.Li("Alpha: "),
+                        html.Ul([
+                            html.Li('''If a non-zero alpha distance value is specified (called the "alpha" value), then only tetrahedra, triangles, edges, and vertices laying within the alpha radius are output. 
+                                    In other words, non-zero alpha values may result in arbitrary combinations of tetrahedra, triangles, lines, and vertices'''),
+                        ]),
+                    html.Li("Opacity: "),
+                        html.Ul([
+                            html.Li("Amend the opacity of the spheres / Delaunay mesh to be able to view structures within the mesh"),
+                        ]),
+                ]),
             ]),
+            dbc.Button("Launch App", color="primary", id="startQT_btn"),
         ]
-    ),
+    )
+])
+
+sample_card = dbc.Card([
+    dbc.CardHeader("Example", style={'fontWeight': 'bold'}),
     dbc.CardImg(src="/assets/image.png", bottom=True),
 ])
+
 launch_app_card = dbc.Card([
-    dbc.CardHeader("Let's Get Started"),
+    dbc.CardHeader("Let's Get Started", style={'fontWeight': 'bold'}),
     dbc.CardBody(
         [
             html.P("Click on the below button to launch the QT app"),
-            dbc.Button("Launch App", color="primary", id="startQT_btn"),
         ]
     )
 ])
@@ -98,25 +144,32 @@ app.layout = dbc.Container(
                     html.Div([
                         dbc.Row(
                             dbc.Col([
-                                html.H2("Creation and Visualisation of a Delaunay Triangulation Mesh"),
-                                html.H2("", id="result"),
+                                html.H2(""),
+                                html.H2(""),
                             ]),
-                            className="mb-2 text-center", ),
+                            className="mb-2", ),
+                        
+                        dbc.Row(
+                            dbc.Col([
+                                html.H2("Creation and Visualisation of a Delaunay Triangulation Mesh", className="mb-2 text-center"),
+                                html.H2("", id="result"),
+                                project_description_card
+                            ]),
+                            className="mb-2", ),
                         dbc.Row([
                             dbc.Col([
-                                html.Div([
-                                    dbc.Row([dbc.Col(project_description_card, )], className="mb-2", ),
-                                    dbc.Row([dbc.Col(contact_us_card, )], className="mb-2", ),
-                                    dbc.Row([dbc.Col([launch_app_card]), ], className="mb-2", ),
-                                ]),
-                            ], width=4),
-                            dbc.Col([
                                 guide_card
-                            ])
+                            ], width=6),
+
+                            dbc.Col([
+                                sample_card,
+                                contact_us_card
+                            ]),
+                            
                         ], className="mb-2", ),
 
                     ])],
-                    width={"size": 8, "offset": 2},
+                    width={"size": 10, "offset": 1},
                 )
             ),
         ])
