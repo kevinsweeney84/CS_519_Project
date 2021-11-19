@@ -141,6 +141,7 @@ class ExplorerWindow(QMainWindow):
             self.vtkWidget.addPipeline(tets, False)
 
         if updateView:
+            print("Updating Pipeline")
             self.vtkWidget.updateView()
 
     def convertToPolydata(self):

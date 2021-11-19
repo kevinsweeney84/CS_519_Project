@@ -66,8 +66,12 @@ class VTKWidget(Qt.QFrame):
 
     def updateView(self):
         self.vtkWidget.GetRenderWindow().Render()
+        print("Render Time: " + str(self.renderer.GetLastRenderTimeInSeconds()))
+
 
     def updateProperty(self, key, value, updateView=True):
+
+        print("Updating: " + key)
         for pipe in self.pipeline:
             pipe.updateProperty(key, value)
         if updateView:
